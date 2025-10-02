@@ -1,0 +1,96 @@
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  width: 240px;
+  height: 399px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.profile-card #background-img {
+  width: 240px;
+  height: 140px;
+  margin-top: 4px;
+  border-radius: 10px;
+}
+
+.profile-card #avatar-circle {
+  position: absolute;
+  width: 138px;
+  height: 138px;
+  margin-top: 76px;
+  margin-left: 51px;
+}
+
+.profile-card #no-avatar {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  margin-top: 80px;
+  margin-left: 55px;
+  border-radius: 50%;
+}
+
+.profile-card #nickname {
+  margin-top: 81px;
+  height: 9px;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.profile-card #status {
+  margin-top: 0;
+  height: 46px;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #5e5e5e;
+}
+
+.profile-card .profile-button {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-card .imageInput {
+  color: transparent;
+  margin-left: 25%;
+  z-index: 9999;
+}
+
+.profile-card .profile-button img {
+  width: 26px;
+  height: 26px;
+  margin-top: 15px;
+  margin-left: 7px;
+}
+
+.profile-card .profile-button p {
+  margin-top: 19px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.profile-card .settings-button {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-card .settings-button img {
+  width: 26px;
+  height: 26px;
+  margin-top: 0;
+  margin-left: 7px;
+}
+
+.profile-card .settings-button p {
+  margin-top: 5px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+}

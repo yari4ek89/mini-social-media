@@ -1,0 +1,58 @@
+header {
+  height: 100px;
+  font-family: "Helvetica CE Bold Oblique", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 16px;
+  color: #0044aa;
+  display: flex;
+  align-content: center;
+  gap: 40px;
+  box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  margin-left: 100px;
+}
+
+.search-container {
+  width: 409px;
+  height: 50px;
+  background-color: #f1f1f1;
+  margin-top: 17px;
+  border-radius: 10px;
+  display: flex;
+  gap: 12px;
+}
+
+.search-container img {
+  width: 26px;
+  height: 26px;
+  margin-top: 12px;
+  margin-left: 12px;
+}
+
+.search-container input {
+  width: 75%;
+  height: 19px;
+  margin-top: 15px;
+  border: none;
+  background-color: transparent;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+header button {
+  width: 99px;
+  height: 36px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  background-color: #0044aa;
+  border: none;
+  border-radius: 5px;
+  align-self: center;
+  margin-left: 55%;
+}

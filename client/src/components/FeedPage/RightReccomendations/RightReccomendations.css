@@ -1,0 +1,28 @@
+.right-reccomendations {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.right-reccomendations .div-container {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  width: 240px;
+  height: 348px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.right-reccomendations .div-container h1 {
+  margin-left: 20px;
+  height: 30px;
+  font-size: 20px;
+}
+
+.right-reccomendations .div-container p {
+  margin-left: 20px;
+  height: 0;
+  font-size: 14px;
+  font-weight: 400;
+}

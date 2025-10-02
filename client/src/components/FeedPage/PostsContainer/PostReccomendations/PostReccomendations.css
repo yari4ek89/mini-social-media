@@ -1,0 +1,4 @@
+.post-reccomendations {
+  display: flex;
+  flex-direction: column;
+}

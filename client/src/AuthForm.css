@@ -1,0 +1,84 @@
+.auth-form {
+  font-family: "Helvetica CE Bold Oblique", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 16px;
+  color: #0044aa;
+}
+
+.auth-form h1 {
+  text-align: center;
+  margin-top: 100px;
+  height: 0;
+}
+
+.auth-form .changeable-form {
+  margin-top: 190px;
+  padding: 0;
+  width: 592px;
+  height: 369px;
+  background-color: white;
+  border-radius: 10px;
+  justify-self: center;
+}
+
+.auth-form .changeable-form .caption,
+._p {
+  font-family: "OpenSans", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  font-style: normal;
+  color: black;
+  padding-top: 13px;
+}
+
+.auth-form .changeable-form .password {
+  font-family: "OpenSans", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  font-style: normal;
+  color: black;
+}
+
+.auth-form .changeable-form input {
+  width: 376px;
+  height: 70px;
+  border: none;
+  background-color: #f1f1f1;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 36px;
+  border-radius: 10px;
+}
+
+.auth-form .changeable-form .logps-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 43px;
+}
+
+.auth-form .changeable-form .logps-container1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 29px;
+}
+
+.auth-form .changeable-form .buttons-container {
+  margin-top: 52px;
+  display: flex;
+  gap: 24px;
+  justify-self: center;
+}
+
+.auth-form .changeable-form .buttons-container button {
+  height: 36px;
+  width: 99px;
+  background-color: #0044aa;
+  border: none;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}

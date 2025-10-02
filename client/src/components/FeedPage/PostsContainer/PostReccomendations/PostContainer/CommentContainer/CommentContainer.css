@@ -1,0 +1,63 @@
+.create-comment-container {
+  display: flex;
+  gap: 10px;
+}
+
+.create-comment-container img {
+  width: 54px;
+  height: 54px;
+  align-self: center;
+  margin-left: 10px;
+  border-radius: 50%;
+}
+
+.create-comment-container input {
+  width: 570px;
+  height: 70px;
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  border: none;
+  border-color: none;
+  background-color: #f8fafa;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.comment-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.comment-container #avatar {
+  padding: 0;
+  margin: 0;
+  align-self: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.comment-container p {
+  padding: 0;
+  align-self: center;
+  margin-top: 20px;
+}
+
+.comment-container img {
+  padding: 0;
+  margin: 0;
+  width: 24px;
+  height: 6px;
+  justify-content: flex-end;
+}
+
+.comment-container .modal-more {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
