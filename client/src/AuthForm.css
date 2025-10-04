@@ -82,3 +82,32 @@
   font-weight: 600;
   font-size: 14px;
 }
+
+@media (max-width: 545px) {
+  .auth-form {
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 425px) {
+  .auth-form {
+    transform: scale(0.6);
+    font-size: 30px;
+  }
+  .auth-form .changeable-form .buttons-container button {
+    transform: scale(1.2);
+  }
+}
+
+@media (max-width: 323px) {
+  .auth-form {
+    transform: scale(0.4);
+    font-size: 40px;
+  }
+  .auth-form .changeable-form .buttons-container {
+    gap: 100 px;
+  }
+  .auth-form .changeable-form .buttons-container button {
+    transform: scale(1.6);
+  }
+}

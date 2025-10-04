@@ -3,6 +3,7 @@ import AppError from "../utils/AppError.js";
 import Post, { getAllPosts, getPostId } from "../models/Post.js";
 import User, { getUserId } from "../models/User.js";
 import Likes, { getLikes } from "../models/Likes.js";
+import Comment, { getComments } from "../models/Comment.js";
 
 // Export create post arrow function
 export const createPost = async (req, res, next) => {
@@ -101,6 +102,94 @@ export const getIsLiked = async (req, res, next) => {
     console.log(lastLike);
     if (lastLike != null) return res.json({ status: "success", result: true });
     else return res.json({ status: "success", result: false });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const commentPost = async (req, res, next) => {
+  try {
+    const delayMs = 5000;
+    const user = await getUserId(req.user.id);
+    if (!user) throw new AppError("No user", 401);
+    const post = await getPostId(req.body.postId);
+    if (!post) throw new AppError("No post", 404);
+    const commentText = req.body.text;
+    if (commentText.length < 0 || commentText.length > 20000)
+      throw new AppError("Post length", 400);
+    const lastComment = await Comment.findOne({
+      postId: post.id,
+      userId: user.id,
+    }).sort({ createdAt: -1 });
+    if (lastComment && Date.now() - lastComment.createdAt.getTime() < delayMs) {
+      const posts = await getAllPosts();
+      return res.json({ status: "failed", posts: { posts } });
+    }
+
+    await Comment.create({
+      author: {
+        authorId: req.user.id,
+        name: user.username,
+        avatarUrl: user.avatar.url,
+      },
+      postId: post.id,
+      text: commentText,
+      userId: user.id,
+      createdAt: Date.now(),
+    });
+    await Post.updateOne({ _id: post.id }, { $inc: { commentCount: 1 } });
+    const posts = await getAllPosts();
+    return res.json({ status: "success", posts: { posts } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getComment = async (req, res, next) => {
+  try {
+    const user = await getUserId(req.user.id);
+    if (!user) throw new AppError("No user", 401);
+    const comments = await getComments();
+    const result = comments.map((p) => ({
+      _id: p._id,
+      content: p.text,
+      author: {
+        _id: p.author?.id,
+        name: p.author?.name ?? "Unknown",
+        avatarUrl: p.author?.avatarUrl ?? "/client/src/assets/no-avatar.png",
+      },
+      postId: p.postId,
+    }));
+    return res.json({ status: "success", result: { result } });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const putComment = async (req, res, next) => {
+  try {
+    const commentText = req.body.text;
+    if (commentText.length < 1 || commentText.length > 20000)
+      throw new AppError("Post length", 400);
+    await Comment.updateOne(
+      { _id: req.body.commentId },
+      { $set: { text: commentText } }
+    );
+    return res.json({ status: "success" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteComment = async (req, res, next) => {
+  try {
+    console.log(req.query);
+    await Comment.deleteOne({ _id: req.query.commentId });
+    await Post.updateOne(
+      { _id: req.query.postId },
+      { $inc: { commentCount: -1 } }
+    );
+    return res.json({ status: "success" });
   } catch (error) {
     next(error);
   }

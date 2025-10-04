@@ -39,3 +39,25 @@ export const getLiked = async (payload, liked) => {
   liked(await data.result);
   return await data;
 };
+
+export const commentPost = async (payload) => {
+  const { data } = await api.post("/api/post/comment-post", payload);
+  return await data;
+};
+
+export const getComments = async () => {
+  const { data } = await api.post("/api/post/get-comments");
+  return await data;
+};
+
+export const updateComment = async (payload) => {
+  const { data } = await api.put("/api/post/update-comment", payload);
+  return await data;
+};
+
+export const deleteComment = async (payload) => {
+  const { data } = await api.delete(
+    `/api/post/delete-comment?postId=${payload.postId}&commentId=${payload.commentId}`
+  );
+  return await data;
+};

@@ -1,14 +1,11 @@
 import "./PostContainer.css";
 import ActionContainer from "./ActionContainer/ActionContainer";
 import CommentContainer from "./CommentContainer/CommentContainer";
-import AvatarUploader from "../../../../AvatarUploader";
-import { useAuth } from "../../../../../context/AuthContext";
 import { usePost } from "../../../../../context/PostContext";
 import { useState, useEffect } from "react";
 import React from "react";
 
 export default function PostContainer(props) {
-  const { user } = useAuth();
   const { postLike, likeGet, currentPosts } = usePost();
   const [isLiked, setIsLiked] = useState(false);
   const [isComment, setIsComment] = useState(false);
@@ -85,7 +82,9 @@ export default function PostContainer(props) {
           id="share-icon"
         />
       </div>
-      {isComment && <CommentContainer />}
+      {isComment && (
+        <CommentContainer postId={props.postId} avatarSrc={avatarSrc} />
+      )}
     </div>
   );
 }

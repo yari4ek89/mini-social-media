@@ -5,6 +5,10 @@ import {
   postsGet,
   likePost,
   getLiked,
+  commentPost,
+  getComments,
+  updateComment,
+  deleteComment,
 } from "../services/postService";
 
 const PostContext = createContext(undefined);
@@ -16,6 +20,7 @@ export default function PostProvider({ children }) {
   const [allPosts, setAllPosts] = useState([]);
   const [currentPosts, setCurrentPosts] = useState([]);
   const [post, setPost] = useState(null);
+  const [comments, setComments] = useState(null);
   const [ready, setReady] = useState(null);
   let data;
 
@@ -32,6 +37,43 @@ export default function PostProvider({ children }) {
       .finally(() => {
         setReady(true);
       });
+  }, []);
+
+  useEffect(() => {
+    getComments()
+      .then((res) => {
+        setComments(res.result);
+      })
+      .catch((error) => {
+        setComments([]);
+      });
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const [postsRes, commentsRes] = await Promise.all([
+          postsGet(),
+          getComments(),
+        ]);
+        if (cancelled) return;
+
+        setCurrentPosts(postsRes?.result || []);
+        setAllPosts(postsRes?.posts || []);
+        setComments(commentsRes?.result || []);
+      } catch {
+        if (cancelled) return;
+        setCurrentPosts([]);
+        setAllPosts([]);
+        setComments([]);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Neccessary requests
@@ -55,16 +97,25 @@ export default function PostProvider({ children }) {
     data = await getLiked(form, liked);
     return data;
   };
-
-  postsGet()
-    .then((res) => {
-      setCurrentPosts(res.result || []);
-      setAllPosts(res.posts || []);
-    })
-    .catch((e) => {
-      setCurrentPosts([]);
-      setAllPosts([]);
-    });
+  const postComment = async (form) => {
+    data = await commentPost(form);
+    setAllPosts(data.posts);
+    setCurrentPosts(data.result || []);
+    return data.posts;
+  };
+  const commentsGet = async (form) => {
+    data = await getComments(form);
+    setComments(data || []);
+    return data;
+  };
+  const commentUpdate = async (form) => {
+    data = await updateComment(form);
+    return data;
+  };
+  const commentDelete = async (form) => {
+    data = await deleteComment(form);
+    return data;
+  };
 
   // Return component
   return (
@@ -78,6 +129,11 @@ export default function PostProvider({ children }) {
         postLike,
         likeGet,
         getPosts,
+        postComment,
+        commentsGet,
+        comments,
+        commentUpdate,
+        commentDelete,
       }}
     >
       {children}

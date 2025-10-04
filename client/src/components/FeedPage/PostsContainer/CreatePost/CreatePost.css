@@ -50,3 +50,40 @@
   border: none;
   border-radius: 5px;
 }
+
+@media (max-width: 1081px) {
+  .create-post {
+    width: 550px;
+  }
+
+  .create-post .create input {
+    width: 450px;
+  }
+
+  .create-post .additional-action {
+    margin-left: 70px;
+  }
+
+  .create-post .additional-action #post-button {
+    margin-left: 72px;
+  }
+}
+
+@media (max-width: 915px) {
+  .create-post {
+    width: 320px;
+  }
+
+  .create-post .create input {
+    width: 150px;
+  }
+
+  .create-post .additional-action {
+    margin-left: 30px;
+    gap: 10px;
+  }
+
+  .create-post .additional-action #post-button {
+    margin-left: 25px;
+  }
+}
