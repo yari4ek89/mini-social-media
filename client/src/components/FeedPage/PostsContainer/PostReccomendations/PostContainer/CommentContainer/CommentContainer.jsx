@@ -46,7 +46,7 @@ export default function CommentContainer(props) {
       <hr />
       <div className="create-comment-container">
         <img
-          src={user?.avatar?.url || "/client/src/assets/no-avatar.png"}
+          src={user?.avatar?.url || "@/assets/no-avatar.png"}
           alt="avatar"
         />
         <input
@@ -74,7 +74,7 @@ export default function CommentContainer(props) {
               <img
                 src={
                   comment?.author?.avatarUrl ||
-                  "/client/src/assets/no-avatar.png"
+                  "@/assets/no-avatar.png"
                 }
                 alt="avatar"
                 id="avatar"
@@ -89,7 +89,7 @@ export default function CommentContainer(props) {
                 <p>{comment.content}</p>
               )}
               <img
-                src="client/src/assets/more-options.png"
+                src="@/assets/more-options.png"
                 alt="more options"
                 onClick={(e) => {
                   e.preventDefault();
