@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import ModalMore from "./ModalMore";
 import { usePost } from "../../../../../../context/PostContext";
 import { useAuth } from "../../../../../../context/AuthContext";
+import noAvatar from "@/assets/no-avatar.png";
+import moreOptions from "@/assets/more-options.png";
 
 export default function CommentContainer(props) {
   const { comments, postComment, commentUpdate, commentDelete } = usePost();
@@ -46,7 +48,7 @@ export default function CommentContainer(props) {
       <hr />
       <div className="create-comment-container">
         <img
-          src={user?.avatar?.url || "@/assets/no-avatar.png"}
+          src={user?.avatar?.url || {noAvatar}}
           alt="avatar"
         />
         <input
@@ -74,7 +76,7 @@ export default function CommentContainer(props) {
               <img
                 src={
                   comment?.author?.avatarUrl ||
-                  "@/assets/no-avatar.png"
+                  {noAvatar}
                 }
                 alt="avatar"
                 id="avatar"
@@ -89,7 +91,7 @@ export default function CommentContainer(props) {
                 <p>{comment.content}</p>
               )}
               <img
-                src="@/assets/more-options.png"
+                src={moreOptions}
                 alt="more options"
                 onClick={(e) => {
                   e.preventDefault();
