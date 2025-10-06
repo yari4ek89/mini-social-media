@@ -24,7 +24,7 @@ export default function CreatePost() {
     <div className="create-post">
       <div className="create">
         <img
-          src={user.avatar?.url || "/client/src/assets/no-avatar.png"}
+          src={user.avatar?.url || "@/assets/no-avatar.png"}
           alt="no-avatar"
           id="no-avatar-create"
         />
@@ -36,11 +36,11 @@ export default function CreatePost() {
         />
       </div>
       <div className="additional-action">
-        <img src="/client/src/assets/image-action.png" alt="image-action" />
-        <img src="/client/src/assets/gif-action.png" alt="gif-action" />
-        <img src="/client/src/assets/emoji-action.png" alt="emoji-action" />
+        <img src="@/assets/image-action.png" alt="image-action" />
+        <img src="@/assets/gif-action.png" alt="gif-action" />
+        <img src="@/assets/emoji-action.png" alt="emoji-action" />
         <img
-          src="/client/src/assets/position-action.png"
+          src="@/assets/position-action.png"
           alt="position-action"
         />
         <button
