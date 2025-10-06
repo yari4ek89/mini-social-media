@@ -12,7 +12,7 @@ export default function PostReccomendations() {
           allPosts.posts.map((post) => (
             <div key={post._id} className="post-reccomendations">
               <PostContainer
-                profAvatar="/client/src/assets/no-avatar.png"
+                profAvatar="@/assets/no-avatar.png"
                 postText={post.content}
                 commentCount={post.commentCount}
                 likeCount={post.likesCount}
