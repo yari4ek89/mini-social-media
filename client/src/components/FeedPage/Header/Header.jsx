@@ -10,7 +10,7 @@ export default function Header() {
     <header>
       <h1>Mini SM</h1>
       <div className="search-container">
-        <img src="/client/src/assets/search-icon.png" alt="search-icon" />
+        <img src="@/assets/search-icon.png" alt="search-icon" />
         <input type="text" placeholder="Input text..." />
       </div>
       <button
