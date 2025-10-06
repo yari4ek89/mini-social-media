@@ -1,6 +1,7 @@
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import searchIcon from "@/assets/search-icon.png";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function Header() {
     <header>
       <h1>Mini SM</h1>
       <div className="search-container">
-        <img src="@/assets/search-icon.png" alt="search-icon" />
+        <img src={searchIcon} alt="search-icon" />
         <input type="text" placeholder="Input text..." />
       </div>
       <button
