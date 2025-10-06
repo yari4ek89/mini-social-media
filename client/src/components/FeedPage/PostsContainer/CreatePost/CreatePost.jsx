@@ -2,6 +2,11 @@ import "./CreatePost.css";
 import { useState, useRef } from "react";
 import { usePost } from "../../../../context/PostContext";
 import { useAuth } from "../../../../context/AuthContext";
+import noAvatar from "@/assets/no-avatar.png";
+import imageAction from "@/assets/image-action.png";
+import gifAction from "@/assets/gif-action.png";
+import emojiAction from "@/assets/emoji-action.png";
+import positionAction from "@/assets/position-action.png";
 
 export default function CreatePost() {
   const postInput = useRef(null);
@@ -24,7 +29,7 @@ export default function CreatePost() {
     <div className="create-post">
       <div className="create">
         <img
-          src={user.avatar?.url || "@/assets/no-avatar.png"}
+          src={user.avatar?.url || {noAvatar}}
           alt="no-avatar"
           id="no-avatar-create"
         />
@@ -36,11 +41,11 @@ export default function CreatePost() {
         />
       </div>
       <div className="additional-action">
-        <img src="@/assets/image-action.png" alt="image-action" />
-        <img src="@/assets/gif-action.png" alt="gif-action" />
-        <img src="@/assets/emoji-action.png" alt="emoji-action" />
+        <img src={imageAction} alt="image-action" />
+        <img src={gifAction} alt="gif-action" />
+        <img src={emojiAction} alt="emoji-action" />
         <img
-          src="@/assets/position-action.png"
+          src={positionAction}
           alt="position-action"
         />
         <button
