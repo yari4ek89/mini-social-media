@@ -9,7 +9,6 @@ export const uploadAvatar = async (req, res, next) => {
 
   try {
     const cloudinary = getCloudinary();
-    console.log(req.file);
     if (!req.file) throw new AppError("No file", 404);
     if (req.file.size > MAX_MB * 1024 * 1024) {
       throw new AppError("File size is too big (max 5MB)", 400);

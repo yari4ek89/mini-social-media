@@ -20,54 +20,30 @@ export default function PostProvider({ children }) {
   const [allPosts, setAllPosts] = useState([]);
   const [currentPosts, setCurrentPosts] = useState([]);
   const [post, setPost] = useState(null);
-  const [comments, setComments] = useState(null);
+  const [comments, setComments] = useState([]);
   const [ready, setReady] = useState(null);
-  let data;
-
-  useEffect(() => {
-    postsGet()
-      .then((res) => {
-        setAllPosts(res.posts || []);
-        setCurrentPosts(res.result || []);
-      })
-      .catch((error) => {
-        setAllPosts([]);
-        setCurrentPosts([]);
-      })
-      .finally(() => {
-        setReady(true);
-      });
-  }, []);
-
-  useEffect(() => {
-    getComments()
-      .then((res) => {
-        setComments(res.result);
-      })
-      .catch((error) => {
-        setComments([]);
-      });
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
-        const [postsRes, commentsRes] = await Promise.all([
+        const [postsRes, commentRes] = await Promise.all([
           postsGet(),
           getComments(),
         ]);
         if (cancelled) return;
 
-        setCurrentPosts(postsRes?.result || []);
         setAllPosts(postsRes?.posts || []);
-        setComments(commentsRes?.result || []);
-      } catch {
+        setCurrentPosts(postsRes?.posts || []);
+        setComments(commentRes?.result || []);
+      } catch (error) {
         if (cancelled) return;
-        setCurrentPosts([]);
         setAllPosts([]);
+        setCurrentPosts([]);
         setComments([]);
+      } finally {
+        if (!cancelled) setReady(true);
       }
     })();
 
@@ -76,45 +52,57 @@ export default function PostProvider({ children }) {
     };
   }, []);
 
+  const refetchAll = async () => {
+    const [postsRes, commentRes] = await Promise.all([
+      postsGet(),
+      getComments(),
+    ]);
+    setAllPosts(postsRes?.posts || []);
+    setCurrentPosts(postsRes?.posts || []);
+    setComments(commentRes?.result || []);
+    return { postsRes, commentRes };
+  };
+
   // Neccessary requests
   const postCreate = async (form) => {
-    data = await createPost(form);
-    setPost(data);
+    const created = await createPost(form);
+    setPost(created);
+    await refetchAll();
+    return created;
   };
   const getPosts = async () => {
-    data = await postsGet();
-    setAllPosts(data.posts || []);
-    setCurrentPosts(data.result || []);
-    return data;
+    const res = await postsGet();
+    setAllPosts(res?.posts || []);
+    setCurrentPosts(res?.result || []);
+    return res;
   };
   const postLike = async (form, liked) => {
-    data = await likePost(form, liked);
-    setAllPosts(data.posts);
-    setCurrentPosts(data.result || []);
-    return data.posts;
+    await likePost(form, liked);
+    await refetchAll();
   };
   const likeGet = async (form, liked) => {
-    data = await getLiked(form, liked);
-    return data;
+    return await getLiked(form, liked);
   };
   const postComment = async (form) => {
-    data = await commentPost(form);
-    setAllPosts(data.posts);
-    setCurrentPosts(data.result || []);
-    return data.posts;
+    const res = await commentPost(form);
+    await refetchAll();
+    return res;
   };
   const commentsGet = async (form) => {
-    data = await getComments(form);
-    setComments(data || []);
-    return data;
+    const res = await getComments(form);
+    setComments(res?.result || []);
+    return res;
   };
   const commentUpdate = async (form) => {
-    data = await updateComment(form);
-    return data;
+    const res = await updateComment(form);
+    await commentsGet();
+    return res;
   };
   const commentDelete = async (form) => {
-    data = await deleteComment(form);
-    return data;
+    const res = await deleteComment(form);
+    await refetchAll();
+    await commentsGet();
+    return res;
   };
 
   // Return component

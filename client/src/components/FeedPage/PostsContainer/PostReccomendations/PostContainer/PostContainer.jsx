@@ -33,8 +33,8 @@ export default function PostContainer(props) {
     await postLike(payload, setIsLiked);
   };
 
-  const postsArray = Array.isArray(currentPosts?.result)
-    ? currentPosts.result
+  const postsArray = Array.isArray(currentPosts.posts)
+    ? currentPosts.posts
     : Array.isArray(currentPosts)
     ? currentPosts
     : [];

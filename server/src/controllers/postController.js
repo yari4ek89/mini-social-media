@@ -1,8 +1,8 @@
 // Import neccessary libraries
 import AppError from "../utils/AppError.js";
 import Post, { getAllPosts, getPostId } from "../models/Post.js";
-import User, { getUserId } from "../models/User.js";
-import Likes, { getLikes } from "../models/Likes.js";
+import { getUserId } from "../models/User.js";
+import Likes from "../models/Likes.js";
 import Comment, { getComments } from "../models/Comment.js";
 
 // Export create post arrow function
@@ -51,13 +51,11 @@ export const getPost = async (req, res, next) => {
 
 export const likePost = async (req, res, next) => {
   try {
-    const currentDate = new Date();
     const delayMs = 5000;
     const user = await getUserId(req.user.id);
     if (!user) throw new AppError("No user", 401);
     const post = await getPostId(req.body.postId);
     if (!post) throw new AppError("No post", 404);
-    const likes = await getLikes();
     const lastLike = await Likes.findOne({
       postId: post.id,
       userId: user.id,
@@ -94,12 +92,10 @@ export const getIsLiked = async (req, res, next) => {
     if (!user) throw new AppError("No user", 401);
     const post = await getPostId(req.body.postId);
     if (!post) throw new AppError("No post", 404);
-    const likes = await getLikes();
     const lastLike = await Likes.findOne({
       postId: post.id,
       userId: user.id,
     });
-    console.log(lastLike);
     if (lastLike != null) return res.json({ status: "success", result: true });
     else return res.json({ status: "success", result: false });
   } catch (error) {
@@ -183,13 +179,19 @@ export const putComment = async (req, res, next) => {
 
 export const deleteComment = async (req, res, next) => {
   try {
-    console.log(req.query);
     await Comment.deleteOne({ _id: req.query.commentId });
-    await Post.updateOne(
+    const updated = await Post.updateOne(
       { _id: req.query.postId },
       { $inc: { commentCount: -1 } }
     );
-    return res.json({ status: "success" });
+    if (updated && updated.commentCount < 0) {
+      updated.commentCount = 0;
+      await updated.save();
+    }
+    return res.json({
+      status: "success",
+      commentCount: updated ? updated.commentCount : 0,
+    });
   } catch (error) {
     next(error);
   }

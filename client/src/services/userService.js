@@ -2,7 +2,6 @@ import { api } from "./api.js"; // import api
 //import { toast } from "react-toastify";
 
 export const uploadAva = async (payload) => {
-  console.log(payload);
   const { data } = await api.post("/api/users/me/avatar", payload);
   return data;
 };

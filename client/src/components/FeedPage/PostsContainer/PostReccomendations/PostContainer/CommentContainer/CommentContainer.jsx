@@ -41,8 +41,6 @@ export default function CommentContainer(props) {
     await commentDelete(payload);
   };
 
-  console.log(action);
-
   return (
     <div>
       <hr />
