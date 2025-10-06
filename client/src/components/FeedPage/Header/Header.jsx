@@ -1,6 +1,6 @@
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "/client/src/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Header() {
   let navigate = useNavigate();

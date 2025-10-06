@@ -9,6 +9,11 @@ import { errorHandler, notFound } from "./middlewares/errorHandler.js"; // impor
 import cors from "cors"; // import cors from cors
 import cookieParser from "cookie-parser"; // import cookieParser from cookie-parser
 import cloudinary from "./lib/cloudinary.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config(); // import .env vars
 const app = express(); // define app
@@ -27,15 +32,24 @@ app.use("/api/auth", authRoutes); // connect authRoutes
 app.use("/api/post", postRoutes); // connect postRoutes
 app.use("/api/users", userRoutes); // connect userRoutes
 
+const clientBuild = path.join(__dirname, "../../client/dist");
+app.use(express.static(clientBuild));
+
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(clientBuild, "index.html"));
+});
+
 // Connect 404 error
 app.use(notFound);
 
 // Connect centralized error handler
 app.use(errorHandler);
 
+const PORT = process.env.PORT || 10000;
+
 // Connect DB and start server
 mongoose.connect(process.env.URI).then(() =>
-  app.listen(process.env.PORT, () => {
-    console.log(`App listening on port ${process.env.PORT}`);
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
   })
 );
