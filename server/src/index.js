@@ -13,7 +13,12 @@ import cloudinary from "./lib/cloudinary.js";
 dotenv.config(); // import .env vars
 const app = express(); // define app
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // connect secure connect with frontend
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN?.split(",") || "*",
+    credentials: true,
+  })
+); // connect secure connect with frontend
 app.use(cookieParser()); // middleware to use cookie
 app.use(express.json()); // middleware to use JSON
 
