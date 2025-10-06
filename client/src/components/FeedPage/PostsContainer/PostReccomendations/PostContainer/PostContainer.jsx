@@ -52,14 +52,14 @@ export default function PostContainer(props) {
         <img src={avatarSrc} alt="Avatar" id="avatar" />
         <p id="post-text">{props.postText}</p>
         <img
-          src="/client/src/assets/more-options.png"
+          src="@/assets/more-options.png"
           alt="more-options"
           id="more-options"
         />
       </div>
       <div className="lower-container">
         <ActionContainer
-          actionIcon="/client/src/assets/comment-icon.png"
+          actionIcon="@/assets/comment-icon.png"
           count={props.commentCount || 0}
           onClick={(e) => {
             e.preventDefault();
@@ -67,7 +67,7 @@ export default function PostContainer(props) {
           }}
         />
         <ActionContainer
-          actionIcon="/client/src/assets/like-icon.png"
+          actionIcon="@/assets/like-icon.png"
           count={props.likeCount || 0}
           _class={"like"}
           onClick={(e) => {
@@ -77,7 +77,7 @@ export default function PostContainer(props) {
           buttonStyle={buttonStyle}
         />
         <img
-          src="/client/src/assets/share-icon.png"
+          src="@/assets/share-icon.png"
           alt="share-icon"
           id="share-icon"
         />
