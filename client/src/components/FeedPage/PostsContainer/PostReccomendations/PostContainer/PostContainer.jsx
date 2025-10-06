@@ -4,6 +4,10 @@ import CommentContainer from "./CommentContainer/CommentContainer";
 import { usePost } from "../../../../../context/PostContext";
 import { useState, useEffect } from "react";
 import React from "react";
+import moreOptions from "@/assets/more-options.png";
+import commentIcon from "@/assets/comment-icon.png";
+import likeIcon from "@/assets/like-icon.png";
+import shareIcon from "@/assets/share-icon.png";
 
 export default function PostContainer(props) {
   const { postLike, likeGet, currentPosts } = usePost();
@@ -52,14 +56,14 @@ export default function PostContainer(props) {
         <img src={avatarSrc} alt="Avatar" id="avatar" />
         <p id="post-text">{props.postText}</p>
         <img
-          src="@/assets/more-options.png"
+          src={moreOptions}
           alt="more-options"
           id="more-options"
         />
       </div>
       <div className="lower-container">
         <ActionContainer
-          actionIcon="@/assets/comment-icon.png"
+          actionIcon={commentIcon}
           count={props.commentCount || 0}
           onClick={(e) => {
             e.preventDefault();
@@ -67,7 +71,7 @@ export default function PostContainer(props) {
           }}
         />
         <ActionContainer
-          actionIcon="@/assets/like-icon.png"
+          actionIcon={likeIcon}
           count={props.likeCount || 0}
           _class={"like"}
           onClick={(e) => {
@@ -77,7 +81,7 @@ export default function PostContainer(props) {
           buttonStyle={buttonStyle}
         />
         <img
-          src="@/assets/share-icon.png"
+          src={shareIcon}
           alt="share-icon"
           id="share-icon"
         />
