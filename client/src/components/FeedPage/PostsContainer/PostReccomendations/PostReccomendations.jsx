@@ -1,6 +1,7 @@
 import "./PostReccomendations.css";
 import PostContainer from "./PostContainer/PostContainer";
 import { usePost } from "../../../../context/PostContext";
+import noAvatar from "@/assets/no-avatar.png";
 
 export default function PostReccomendations() {
   const { allPosts } = usePost();
@@ -12,7 +13,7 @@ export default function PostReccomendations() {
           allPosts.posts.map((post) => (
             <div key={post._id} className="post-reccomendations">
               <PostContainer
-                profAvatar="@/assets/no-avatar.png"
+                profAvatar={noAvatar}
                 postText={post.content}
                 commentCount={post.commentCount}
                 likeCount={post.likesCount}
