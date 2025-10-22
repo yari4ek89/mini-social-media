@@ -1,24 +1,22 @@
-// Import neccessary library
-import axios from "axios"; // axios
-import { toast } from "react-toastify";
+import axios from "axios";
+import {notify} from "@/utils/notify.js";
 
-// Export api
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true,
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true,
 });
 
-// To make requests
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+    return config;
 });
 
-// To make responses
 api.interceptors.response.use(
-  (r) => r,
-  (err) => {
-    return Promise.reject(err);
-  }
+    (r) => r,
+    (err) => {
+        console.log(err);
+        notify('error', err?.response?.data?.message);
+        return Promise.reject(err);
+    }
 );

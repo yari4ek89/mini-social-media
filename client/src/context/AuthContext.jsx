@@ -1,12 +1,6 @@
 // Import neccessary libraries
-import { createContext, useContext, useState, useEffect } from "react"; // import createContext, useContext, useState, useEffect from react
-import {
-  loginUser,
-  registerUser,
-  logoutUser,
-  me,
-  checkUsername,
-} from "../services/authService"; // import services from authorization service
+import {createContext, useContext, useEffect, useState} from "react"; // import createContext, useContext, useState, useEffect from react
+import {checkUsername, getUsers, loginUser, logoutUser, me, registerUser} from "../services/authService.js";
 
 // Create context
 const AuthContext = createContext(undefined);
@@ -15,64 +9,83 @@ const AuthContext = createContext(undefined);
 export const useAuth = () => useContext(AuthContext);
 
 // Export AuthProvider
-export default function AuthProvider({ children }) {
-  // Defining var and states
-  const [user, setUser] = useState(null); // user data
-  const [ready, setReady] = useState(null); // ready or not
-  const [lastAction, setLastAction] = useState("login"); // last action for private route, default - login, optional - register
-  let data;
+export default function AuthProvider({children}) {
+    // Defining var and states
+    const [user, setUser] = useState([]); // user data
+    const [ready, setReady] = useState(false); // ready or not
+    const [lastAction, setLastAction] = useState("login"); // last action for private route, default - login, optional - register
+    const [users, setUsers] = useState([]);
+    let data;
 
-  // Use Effect to check me
-  useEffect(() => {
-    me()
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((error) => {
+    useEffect(() => {
+        let cancelled = false;
+
+        (async () => {
+            try {
+                const [meRes] = await Promise.all([
+                    me(),
+                    getAllUsers(),
+                ]);
+                if (cancelled) return;
+
+                setUser(meRes || []);
+            } catch (err) {
+                if (cancelled) return;
+                setUser([]);
+                setUsers([]);
+            } finally {
+                if (!cancelled) setReady(true);
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    // Neccessary requests
+    const login = async (form) => {
+        data = await loginUser(form);
+        setLastAction("login");
+        setUser(data);
+    };
+    const logout = async () => {
+        data = await logoutUser();
         setUser(null);
-      })
-      .finally(() => {
-        setReady(true);
-      });
-  }, []);
+    };
+    const registerFunc = async (form) => {
+        data = await registerUser(form);
+        setLastAction("register");
+        setUser(data);
+    };
+    const checkUsernameContext = async (form) => {
+        data = await checkUsername(form);
+        return data.exists;
+    };
+    const getAllUsers = async () => {
+        data = await getUsers();
+        setUsers(data.result || []);
+        return data.result;
+    }
 
-  // Neccessary requests
-  const login = async (form) => {
-    data = await loginUser(form);
-    setUser(data);
-  };
-  const logout = async () => {
-    data = await logoutUser();
-    setUser(null);
-  };
-  const registerFunc = async (form) => {
-    data = await registerUser(form);
-    setUser(data);
-  };
-  const checkUsernameContext = async (form) => {
-    data = await checkUsername(form);
-    return data.exists;
-  };
-
-  me()
-    .then((res) => setUser(res.data))
-    .catch((e) => setUser(null));
-
-  // Return component
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        ready,
-        login,
-        logout,
-        registerFunc,
-        checkUsernameContext,
-        lastAction,
-        setLastAction,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    // Return component
+    return (
+        <AuthContext.Provider
+            value={{
+                user,
+                users,
+                setUser,
+                ready,
+                login,
+                logout,
+                registerFunc,
+                checkUsernameContext,
+                lastAction,
+                setLastAction,
+                getAllUsers,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
 }

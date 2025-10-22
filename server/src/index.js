@@ -5,24 +5,24 @@ import mongoose from "mongoose"; // import moongoose from moongoose
 import authRoutes from "./routes/authRoutes.js"; // import authRoutes
 import postRoutes from "./routes/postRoutes.js"; // import postRoutes
 import userRoutes from "./routes/userRoutes.js";
-import { errorHandler, notFound } from "./middlewares/errorHandler.js"; // import neccessary function from error handler middleware
+import {errorHandler, notFound} from "./middlewares/errorHandler.js"; // import neccessary function from error handler middleware
 import cors from "cors"; // import cors from cors
 import cookieParser from "cookie-parser"; // import cookieParser from cookie-parser
-import cloudinary from "./lib/cloudinary.js";
 import path from "path";
-import { fileURLToPath } from "url";
+import {fileURLToPath} from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config(); // import .env vars
 const app = express(); // define app
+app.set("trust proxy", 1);
 
 app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN?.split(",") || "*",
-    credentials: true,
-  })
+    cors({
+        origin: process.env.CORS_ORIGIN?.split(",") || "*",
+        credentials: true,
+    })
 ); // connect secure connect with frontend
 app.use(cookieParser()); // middleware to use cookie
 app.use(express.json()); // middleware to use JSON
@@ -36,7 +36,7 @@ const clientBuild = path.join(__dirname, "../../client/dist");
 app.use(express.static(clientBuild));
 
 app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(clientBuild, "index.html"));
+    res.sendFile(path.join(clientBuild, "index.html"));
 });
 
 // Connect 404 error
@@ -49,7 +49,7 @@ const PORT = process.env.PORT || 10000;
 
 // Connect DB and start server
 mongoose.connect(process.env.URI).then(() =>
-  app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`);
-  })
+    app.listen(PORT, () => {
+        console.log(`App listening on port ${PORT}`);
+    })
 );

@@ -1,62 +1,49 @@
-// Import neccessary library
-import { api } from "./api.js"; // import api
-import { toast } from "react-toastify";
+import {api} from "./api.js";
+import {notify} from "@/utils/notify.js"
 
-// Export arrow function registerUser with payload
 export const registerUser = async (payload) => {
-  const { data } = await api.post("/api/auth/register", payload); // make POST request with payload to register
-  return data;
-};
-
-// Export arrow function loginUser with payload
-export const loginUser = async (payload) => {
-  try {
-    const { data } = await api.post("/api/auth/login", payload); // make POST request with payload to login
-    if (data.status === "success") {
-      toast.success(data.status, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      return await data;
+    const {data} = await api.post("/api/auth/register", payload);
+    if (data.status === 'success') {
+        notify('success', "You have been registered successfully!");
     }
-  } catch (err) {
-    toast.error(err.message, {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
-  }
+    return data;
 };
 
-// Export arrow function logoutUser
+export const loginUser = async (payload) => {
+    try {
+        const {data} = await api.post("/api/auth/login", payload);
+        if (data.status === "success") {
+            notify('success', "You have been logined successfully!");
+            return data;
+        }
+    } catch { /* empty */
+    }
+};
+
 export const logoutUser = async () => {
-  const { data } = await api.post("/api/auth/logout"); // make POST request to log out
-  return data;
+    const {data} = await api.post("/api/auth/logout");
+    if (data.status === "success") {
+        notify('success', "You have been logout successfully!");
+    }
+    return data;
 };
 
-// Export arrow function me
 export const me = async () => {
-  try {
-    const { data } = await api.get("api/auth/me"); // make GET request to check log in user or not
-    return await data;
-  } catch {}
+    try {
+        const {data} = await api.get("api/auth/me");
+        return await data;
+    } catch { /* empty */
+    }
 };
 
-// Export arrow function checkUsername with username param
 export const checkUsername = async (username) => {
-  const { data } = await api.get(
-    `/api/auth/check-username?u=${encodeURIComponent(username)}`
-  ); // make GET request to check busy username or not
-  return data;
+    const {data} = await api.get(
+        `/api/auth/check-username?u=${encodeURIComponent(username)}`
+    );
+    return data;
 };
+
+export const getUsers = async () => {
+    const {data} = await api.get("/api/auth/get-users");
+    return data;
+}
